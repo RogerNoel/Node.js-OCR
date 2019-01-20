@@ -1,0 +1,9 @@
+{
+
+    "name": "monmodule",
+    "version": "0.1.0",
+    "dependencies": {
+        "markdown": "~0.4"
+    }
+
+}

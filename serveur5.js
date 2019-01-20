@@ -12,7 +12,7 @@ var server = http.createServer(function(req, res) {
     else if (page == '/roger') {
         res.write('Ici la page de Roger');
     }
-    else if (page = '/dossier/page'){
+    else if (page == '/dossier/page'){
         res.write('Cette page se trouve dans dossier');
     }
 
