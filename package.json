@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "scripts": {
         "watch": "nodemon ."
-      },
+    },
     "dependencies": {
         "ejs": "^2.6.1",
         "express": "^4.16.4",

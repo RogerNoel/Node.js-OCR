@@ -1,29 +1,43 @@
-/* --------------- appel aux bibliothèques --------------------- */
-var http = require('http');
-var url = require('url');
-var querystring = require('querystring'); // --> découpe les paramètres de la chaîne passée dans l'url
+/* *** insertion du module express*** */
+var express = require('express');
 
-/* ------------------- appel à la fonction createServer() ----------------- */
-var server = http.createServer(function(req, res) {
-
-/* ---------------- récupération des paramètres passés en url ------------------ */
-    var params = querystring.parse(url.parse(req.url).query);
-    // params est un tableau, on peut le logger -->
-    console.log(params);
-    console.log(params.prenom);
-    console.log(params['nom']);
-
-    res.writeHead(200, {"Content-Type":"text/plain"}); // indication du type MIME
-
-    /* -------------- vérification de l'existence des paramètres ------- */
-    if ('prenom' in params && 'nom' in params){
-        res.write('Vous vous appelez ' + params['prenom'] + ' ' + params['nom'] );
-    }
-    else {
-        res.write('Vous n\'avez pas de nom?');
-    }
+/* *** création d'un objet "app" appelant la fonction "express" *** */
+var app = express();
 
 
-    res.end();
+-/* --------------------------------------------------- création des routes --------------------------- */
+app.get('/', function(req, res){
+    res.setHeader('content-type', 'text/plain');
+    res.send("Vous êtes à l'accueil");
+})
+
+app.get('/nath', function(req, res){
+    res.setHeader('content-type', 'text/plain');
+    res.send("Vous êtes à Xhoris");
+})
+
+app.get('/roger', function(req, res){
+    res.setHeader('content-type', 'text/plain');
+    res.send("Bienvenue chez Roger");
 });
-server.listen(8080);
+
+/* *** syntaxe :etagenum pour envoyer le paramètres dans le tableau 'params' *** */
+app.get('/etage/:etagenum/chambre', function(req, res){
+    res.setHeader('content-type', 'text/plain');
+    if (isNaN(req.params.etagenum)) {
+        res.status(404).send('Le paramètre n\'est pas un nombre');
+    } else {
+        res.end("Vous êtes à l'étage n°" + req.params.etagenum);
+    }
+    
+});
+
+/* ----------------------------------------------------- fin des routes ----------------------------------- */
+
+/* *** gestion des erreurs 404*** TOUJOURS ECRIT JUSTE AVANT L'ECOUTEUR */
+app.use(function(req, res, next){
+    res.setHeader('content-type', 'text/plain');
+    res.status(404).send('Page introuvable');
+})
+
+app.listen(8080);
