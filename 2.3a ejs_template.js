@@ -24,13 +24,14 @@ app.get('/roger', function(req, res){
 
 // Après installation du module de templating NPM EJS, on réécrit cette partie de route
 // Ce module va déléguer la gestion de la vue à son moteur de template
-app.get('/etage/:etagenum/chambre', (req,res) => {
-    if (isNaN(req.params.etagenum)){
-        res.status(404).send('L\'étage n\'est pas un nombre')
+app.get('/etage/:etagenum/:chambre', (req,res) => {
+    if (isNaN(req.params.etagenum) || (isNaN(req.params.chambre)))
+    {
+        res.status(404).send('L\'étage et la chambre doivent être des nombres')
     } else {
             // on fait appel à un fichier 2.3a chambre.ejs QUI DOIT se trouver dans un SOUS-DOSSIER 'views'
     // ATTENTION à l'extension .ejs ET NON .js
-    res.render('2.3a chambre.ejs', {etage: req.params.etagenum});
+    res.render('2.3a chambre.ejs', {etage: req.params.etagenum, chambre: req.params.chambre});
     }
 })
 
